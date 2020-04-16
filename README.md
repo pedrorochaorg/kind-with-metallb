@@ -31,6 +31,33 @@ GO111MODULE="on" go get sigs.k8s.io/kind@v0.7.0
 
 This command will force GO to use GO Modules and install KIND library. After this the `kind` command should be available in your terminal.
 
+## Install Kubernetes CLI
+
+Before launching our cluster we have to be sure that we install the kuberenetes cli named `kubectl` in our machine, preferably using the same version than our cluster. For this purpose we have to manually install it through the following steps:
+
+Download the kubectl binary:
+
+```bash
+curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.15.11/bin/darwin/amd64/kubectl
+```
+
+Make the kubectl binary executable:
+
+```bash
+chmod +x ./kubectl
+```
+
+Move the binary in to your PATH.
+
+```bash
+sudo mv ./kubectl /usr/local/bin/kubectl
+```
+
+Test to ensure the version you installed is up-to-date:
+```bash
+kubectl version --client
+```
+
 ## Install TunTap
 
 To install tunetap in osx we will use homebrew, this is the safest and secure way to do it. 
@@ -137,32 +164,6 @@ destination: 172.17.255.0
 locks:  inits:
 sockaddrs: <DST,GATEWAY,NETMASK,IFP,IFA>
  172.17.255.0 10.0.75.2 255.255.255.0 tap1:26.c4.68.6.37.20 10.0.75.1
-```
-## Install Kubernetes CLI
-
-Before launching our cluster we have to be sure that we install the kuberenetes cli named `kubectl` in our machine, preferably using the same version than our cluster. For this purpose we have to manually install it through the following steps:
-
-Download the kubectl binary:
-
-```bash
-curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.15.11/bin/darwin/amd64/kubectl
-```
-
-Make the kubectl binary executable:
-
-```bash
-chmod +x ./kubectl
-```
-
-Move the binary in to your PATH.
-
-```bash
-sudo mv ./kubectl /usr/local/bin/kubectl
-```
-
-Test to ensure the version you installed is up-to-date:
-```bash
-kubectl version --client
 ```
 
 ## Deploying our cluster with KIND
@@ -326,6 +327,10 @@ nginx-svc    LoadBalancer   10.111.176.65   172.17.255.1   80:30678/TCP   2m47s
 
 
 Now you should be ready to open [http://172.17.255.1](http://172.17.255.1) in your browser and see the nginx welcome page running inside your cluster.
+
+# Known Issues
+
+Unfortunatley if you restart docker or the computer your cluster wont survive and you have to recreate all step's from the `Install Docker Tuntap` chapter.
 
 # Credits
 
